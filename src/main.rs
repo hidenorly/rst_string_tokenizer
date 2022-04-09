@@ -16,7 +16,7 @@
 
 trait IStringTokenizer
 {
-    fn new( target : String, token : String ) -> Self;
+    fn new( target : &str, token : &str ) -> Self;
     fn has_next(&self) -> bool { false }
     fn get_next(&mut self) -> String { String::from("") }
 }
@@ -34,10 +34,10 @@ pub struct StringTokenizer
 
 impl IStringTokenizer for StringTokenizer
 {
-    fn new( target : String, token : String ) -> Self {
+    fn new( target : &str, token : &str ) -> Self {
         Self {
-            target : target.clone(),
-            token : token.clone(),
+            target : target.to_string(),
+            token : token.to_string(),
             last_pos : 0,
             target_len : target.len(),
             token_len : token.len(),
@@ -75,9 +75,9 @@ impl IStringTokenizer for StringTokenizer
 
 
 fn main() {
-    let target_string = String::from("Hello,_,world,_,from,_,rust!,_,");
+    let target_string = "Hello,_,world,_,from,_,rust!,_,";
 
-    let mut token = StringTokenizer::new( target_string, ",_,".to_string() );
+    let mut token = StringTokenizer::new( &target_string, ",_," );
 
     while token.has_next() {
         println!( "{}", token.get_next() );
