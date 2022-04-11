@@ -19,6 +19,7 @@ trait IStringTokenizer
     fn new( target : &str, token : &str ) -> Self;
     fn has_next(&self) -> bool { false }
     fn get_next(&mut self) -> String { String::from("") }
+    fn get_next_with_trim(&mut self) -> String { String::from("") }
 }
 
 
@@ -71,6 +72,11 @@ impl IStringTokenizer for StringTokenizer
             }
         }
     }
+
+    fn get_next_with_trim(&mut self) -> String {
+        self.get_next().trim().to_string()
+    }
+
 }
 
 #[cfg(test)]
@@ -169,7 +175,6 @@ mod tests {
         assert_eq!(count, 4);
     }
 
-
     #[test]
     fn test_string_tokenizer_only_token() {
         let target_string = ",,,";
@@ -183,5 +188,22 @@ mod tests {
         }
 
         assert_eq!(count, 3);
+    }
+
+    #[test]
+    fn test_string_tokenizer_with_trim() {
+        let target_string = "Hello , world, from ,  rust  ";
+
+        let mut token = StringTokenizer::new( &target_string, "," );
+
+        assert_eq!(token.has_next(), true);
+        assert_eq!(token.get_next_with_trim(), "Hello");
+        assert_eq!(token.has_next(), true);
+        assert_eq!(token.get_next_with_trim(), "world");
+        assert_eq!(token.has_next(), true);
+        assert_eq!(token.get_next_with_trim(), "from");
+        assert_eq!(token.has_next(), true);
+        assert_eq!(token.get_next_with_trim(), "rust");
+        assert_eq!(token.has_next(), false);
     }
 }
