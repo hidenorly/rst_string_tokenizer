@@ -16,5 +16,5 @@ StringTokenizer implementation in Rust as this is well-known in Java.
 
 * [Done] Make this as library
 * [Done] Add test cases
-* [ ] Add Trim
+* [Done] Add Trim
 
